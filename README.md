@@ -12,7 +12,7 @@ The repository contains the GPTarget2023 dataset, a comprehensive collection of 
 
 The repository also includes all the code necessary to conduct the statistical analysis and generate the figures used in the project. Here's what you'll find:
 
-- **Data**: The `data` folder houses all the necessary data files, including the raw dataset. It also hosues a series of numbered Jupyter notebooks that contain the complete code for the project. The notebooks are numbered, and it is essential to run them in the correct order to ensure that the code functions properly.
+- **Code**: The `code` folder houses all the necessary data files, including the raw dataset. It also houses a series of numbered Jupyter notebooks that contain the complete code for the project. The notebooks are numbered, and it is essential to run them in the correct order to ensure that the code functions properly.
 
 - **Web Application**: The `web_app` folder houses all files used to construct the web application used to conduct this experiment.
 
