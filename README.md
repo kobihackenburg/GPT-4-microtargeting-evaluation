@@ -1,6 +1,6 @@
 # Evaluating the persuasive influence of political microtargeting with large language models
 
-This project, authored by Kobi Hackenburg at the University of Oxford, aims to analyze the persuasive influence of political microtargeting using large language models.
+This project, authored by Kobi Hackenburg and Helen Margetts at the University of Oxford, aims to analyze the persuasive influence of political microtargeting using GPT-4.
 
 ## Repository Contents
 
