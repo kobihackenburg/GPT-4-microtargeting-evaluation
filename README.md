@@ -26,7 +26,3 @@ The repository also includes all the code necessary to conduct the statistical a
 
 For any additional questions or comments, please feel free to reach out to Kobi Hackenburg.
 
-## Acknowledgments
-
-Special thanks to Professor Helen Margetts for supervision.
-
