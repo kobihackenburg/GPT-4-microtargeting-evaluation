@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>   
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Political Attitudes Study</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="tohide" style="display:block;">
+    <h1>Please respond to the following questions:</h1>
+    <form id="myform" action="/process_form" method="post">
+        <label for="age">How old are you?</label>
+        <input type="number" name="age" id="age" min="0" max="100" required><br>
+        <label for="ethnicity">Please indicate the race or ethnicity you most closely identify with, if any:</label>
+        <select name="ethnicity" id="ethnicity" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="american_indian">American Indian or Alaska Native</option>
+            <option value="asian">Asian</option>
+            <option value="black">Black or African American</option>
+            <option value="hispanic">Hispanic or Latino</option>
+            <option value="pacific_islander">Native Hawaiian or Pacific Islander</option>
+            <option value="white">White</option>
+            <option value="other">Other</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
+        </select><br>
+        <label for="gender">Please indicate your gender:</label>
+        <select name="gender" id="gender" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="non-binary">Non-binary</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
+        </select><br>
+        <label for="education">Please indicate the highest level of education you have completed:</label>
+        <select name="education" id="education" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="less_than_high_school">Did not graduate from high school</option>
+            <option value="high_school">High school graduate</option>
+            <option value="some_college">Some college but no degree</option>
+            <option value="bachelors_degree">2-year college degree</option>
+            <option value="masters_degree">4-year college degree</option>
+            <option value="doctoral_degree">Postgraduate degree (MA, MBA, JD, PhD, etc.)</option>
+        </select><br>
+        <label for="religious_affiliation">Please indicate your religious affiliation, if any:</label>
+        <select name="religious_affiliation" id="religious_affiliation" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="christian">Christian</option>
+            <option value="muslim">Muslim</option>
+            <option value="hindu">Hindu</option>
+            <option value="jewish">Jewish</option>
+            <option value="buddhist">Buddhist</option>
+            <option value="atheist">Atheist</option>
+            <option value="agnostic">Agnostic</option>
+            <option value="other">Other</option>
+            <option value="prefer_not_to_say">Prefer not to say</option>
+        </select><br>
+        <label for="occupation">What is your current occupation? ("Unemployed" is an acceptable answer):</label>
+        <input type="text" name="occupation" id="occupation" required><br>
+        <label for="geographic_location">Where do you currently live? Please type a city (e.g. Boston), and a state (e.g. Massachusetts):</label>
+        <input type="text" name="geographic_location" id="geographic_location" required><br>
+        <label for="party_affiliation">Please indicate your party affiliation:</label>
+        <select name="party_affiliation" id="party_affiliation" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="strong_democrat">Strong Democrat</option>
+            <option value="moderate_democrat"> Moderate Democrat</option>
+            <option value="independent">Independent</option>
+            <option value="moderate_republican">Moderate Republican</option>
+            <option value="strong_republican">Strong Republican</option>
+            <option value="other">Other (Libertarian, Green Party, etc.) </option>
+        </select><br>
+        <label for="ideological_affiliation">Please indicate your ideological affiliation:</label>
+        <select name="ideological_affiliation" id="ideological_affiliation" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="very_liberal">Very Liberal</option>
+            <option value="moderately_liberal"> Moderately liberal </option>
+            <option value="neutral">Ideologically neutral</option>
+            <option value="moderate_republican">Moderately conservative</option>
+            <option value="very_republican">Very conservative</option>
+            <option value="other">Other</option>
+        </select><br>
+        <label for="political_engagement">How often do you participate in U.S. politics? Participation could include activities such as voting, reading political news, or attending political events.</label>
+        <select name="political_engagement" id="political_engagement" required>
+            <option value="" disabled selected>Select...</option>
+            <option value="highly_engaged">Very often</option>
+            <option value="moderately_engaged">Somewhat often</option>
+            <option value="moderately_unengaged">Not that often</option>
+            <option value="highly_disengaged">Almost never</option>
+        </select><br>
+        <label for="attention_check_question">{{ attention_check_question }}</label><br>
+        <div class="check-container">
+            <input type="checkbox" id="check1" name="attention_check_question" value="check1">
+            <label for="check1">On-line sources only</label><br>
+        </div>
+        <div class="check-container">
+            <input type="checkbox" id="check2" name="attention_check_question" value="check2">
+            <label for="check2">Mostly on-line sources, with some television and print news</label><br>
+        </div>
+        <div class="check-container">
+            <input type="checkbox" id="check3" name="attention_check_question" value="check3">
+            <label for="check3">About half on-line sources</label><br>
+        </div>
+        <div class="check-container">
+            <input type="checkbox" id="check4" name="attention_check_question" value="check4">
+            <label for="check4">Mostly television or print news, with some on-line sources</label><br>
+        </div>
+        <div class="check-container">
+            <input type="checkbox" id="check5" name="attention_check_question" value="check5">
+            <label for="check5">Television or print news only</label><br>
+        </div>
+        <input type="submit" value="Submit">
+        <br><br>
+    </form>
+
+</div>
+    <div id="loading" style="display:none;">
+        <h3>Loading...</h3>
+        <div class="loader"></div>
+        <p>Please wait while the next section of the experiment loads. This might take about a minute.</p>
+    </div>
+    </div>
+
+   <script>
+
+        // the weird dynos part
+
+        // Attach an event handler to the form's submit event
+        $("#myform").on('submit', function(event) {
+            event.preventDefault();
+            var formData = $(this).serialize();
+            document.getElementById('tohide').style.display = 'none'; 
+            document.getElementById('loading').style.display = 'block';
+            
+            $.post("/process_form", formData, function(response) {
+                $.post("/message_generation", function(data) {
+                    console.log(data.job_key);
+                    var job_key = data.job_key;
+                    console.log("hello");
+                    console.log(job_key);
+                    
+                    var pollInterval = setInterval(function() {
+                        $.get("/job_polling", function(job_data) {
+                            if (job_data !== "Not yet") {
+                                clearInterval(pollInterval);
+                                console.log(job_data);
+                                console.log("this is the data type");
+                                console.log(typeof job_data);
+                                let value = job_data?.name;
+                                $.ajax({
+                                    url: '/get_message',
+                                    type: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(job_data),
+                                    dataType: 'json',
+                                    success: function(response) {
+                                        if(response.redirect) {
+                                            window.location.href = response.redirect;
+                                        }
+                                    },
+                                    error: function(error) {
+                                        console.log(error);
+                                    }
+                                });
+                            }
+                        });
+                    }, 2000); // Polling interval is 2 seconds
+                });
+            });
+        });
+        
+    </script>
+
+</body>
+</html>

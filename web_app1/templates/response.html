@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response</title>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <style>
+        .slider-container {
+            position: relative;
+            width: 100%;
+        }
+    
+        .slider-value {
+            position: absolute;
+            transform: translateX(-50%);
+            bottom: -20px; 
+            text-align: center; 
+            width: 30px; 
+            left: 50%; 
+        }
+
+        blockquote {
+            border: 2px solid black;
+            padding: 10px; 
+            margin: 20px 0;
+        }
+
+        .submit-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            cursor: not-allowed;  /* changed this to make it more obvious that it's disabled */
+        }        
+    </style>
+    <script>
+        // Track sliders that have been moved
+        var slidersMoved = {};
+    
+        function updateValue(slider, outputID) {
+            var output = document.getElementById(outputID);
+            output.innerHTML = slider.value;
+    
+            // Update the position of the value based on slider position
+            var sliderPositionPercentage = (slider.value / slider.max);
+            output.style.left = (sliderPositionPercentage * slider.offsetWidth) - (output.offsetWidth / 2) + 30 + 'px';
+    
+            // Mark this slider as moved
+            slidersMoved[slider.id] = true;
+            
+            // Check if all sliders have been moved
+            checkAllSlidersMoved();
+        }
+    
+        function checkAllSlidersMoved() {
+            var allSlidersMoved = Object.values(slidersMoved).every(val => val);
+        
+            // If all sliders have been moved, remove the overlay from the submit button
+            // and enable the submit button.
+            if (allSlidersMoved) {
+                var submitButtonOverlay = document.getElementById("submit-button-overlay");
+                submitButtonOverlay.style.display = "none";
+                var submitButton = document.querySelector("input[type='submit']");
+                submitButton.disabled = false;
+            }
+        }
+
+        // Show an alert if the submit button is clicked while disabled
+        function showSubmitAlert() {
+            alert("Please adjust every slider before continuing to the next page. If you wish to report an answer of exactly 50, move the slider to a new value and then back to 50 again.");
+        }
+    
+        // Disable submit button initially and add all sliders to slidersMoved
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var submitButton = document.querySelector("input[type='submit']");
+            submitButton.disabled = true;
+            
+            // Get all sliders
+            var sliders = document.querySelectorAll("input[type='range']");
+            
+            // Add all sliders to slidersMoved
+            sliders.forEach((slider) => {
+                slidersMoved[slider.id] = false;
+            });
+        });
+    </script>       
+</head>
+<body>
+    <div class="container">
+    <h1>Political Attitudes Study</h1>
+    {% if message %}
+    <p><i>Please carefully read the following message about</i> <b>{{issue_key}}</b>:</p>
+    <blockquote>{{ message|safe }}</blockquote>
+    {% endif %}
+    <form action="{{ url_for('response') }}" method="post">
+        <p><i>Please carefully answer the following questions about </i> <b>{{issue_key}}</b>. For each question, please ensure you note whether a score of 0 means 'Strongly Disagree' and 100 means 'Strongly Agree', or if it's the opposite, where 0 is 'Strongly Agree' and 100 is 'Strongly Disagree'. </p>
+        {% for question in questions %}
+        <label for="{{ loop.index0 }}">{{ question }}</label>
+        <div class="slider-container">
+            <span>0</span>
+            <input type="range" id="{{ loop.index0 }}" name="{{ loop.index0 }}" min="0" max="100" oninput="updateValue(this, 'output{{ loop.index0 }}')" required>
+            <span>100</span>
+            <div id="output{{ loop.index0 }}" class="slider-value"></div>
+        </div>
+        <br><br>
+        {% endfor %}
+        {% if condition != "control" %}
+        <label for="meta_perception_question">{{ meta_perception_question }}</label>
+        <select id="meta_perception_question" name="meta_perception_question" required><br><br>
+            <option value="" disabled selected>Select...</option>
+            <option value="very_similar">Someone very similar to you (e.g., same demographic traits and political attitudes)</option>
+            <option value="somewhat_similar">Someone somewhat similar to you (e.g., some shared demographic or political characteristics)</option>
+            <option value="general_audience">A general audience (i.e., the message is broadly persuasive)</option>
+            <option value="somewhat_different">Someone somewhat different from you (e.g., differing in some demographic or political aspects)</option>
+            <option value="very_different">Someone very different from you (e.g., opposite demographic traits and political attitudes)</option>
+        </select><br><br>
+        <label for="authorship_question">{{ authorship_question }}</label>
+        <select id="authorship_question" name="authorship_question" required><br><br>
+            <option value="" disabled selected>Select...</option>
+            <option value="avg_person">An average person</option>
+            <option value="student">A student</option>
+            <option value="professor">A professor</option>
+            <option value="journalist">A journalist</option>
+            <option value="politician">A politician</option>
+            <option value="activist">An activist</option>
+            <option value="AI">An AI language model</option>
+            <option value="other">Other</option>
+            <option value="unsure">Unsure</option>
+        </select><br><br>
+        {% endif %}
+        <div class="submit-container">  
+            <input type="submit" value="Submit">
+            <div id="submit-button-overlay" class="overlay" onclick="showSubmitAlert()"></div>
+        </div> 
+    </form>
+    </div>
+</body>
+</html>
